@@ -1,0 +1,1552 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PC Building & Cyber Tycoon</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <!-- Canvas Confetti -->
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+    <!-- Google Fonts: Kanit & JetBrains Mono -->
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&family=Kanit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Kanit', sans-serif;
+            background-color: #0f172a;
+            color: #f8fafc;
+            user-select: none;
+        }
+        .code-font {
+            font-family: 'JetBrains Mono', monospace;
+        }
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 6px;
+            height: 6px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #1e293b;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #3b82f6;
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #60a5fa;
+        }
+        /* Glassmorphism Effect */
+        .glass-panel {
+            background: rgba(30, 41, 59, 0.7);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+        }
+        .glass-panel-interactive {
+            transition: all 0.2s ease-in-out;
+        }
+        .glass-panel-interactive:hover {
+            border-color: rgba(59, 130, 246, 0.5);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px -4px rgba(59, 130, 246, 0.2);
+        }
+        /* Glowing Text & Borders */
+        .glow-text-blue {
+            text-shadow: 0 0 10px rgba(59, 130, 246, 0.6);
+        }
+        .glow-text-green {
+            text-shadow: 0 0 10px rgba(34, 197, 94, 0.6);
+        }
+        .glow-border {
+            box-shadow: 0 0 15px rgba(59, 130, 246, 0.3);
+        }
+        /* Animated RGB Line */
+        .rgb-gradient-bg {
+            background: linear-gradient(90deg, #ef4444, #3b82f6, #10b981, #f59e0b, #ec4899, #ef4444);
+            background-size: 300% 300%;
+            animation: rgb-anim 6s ease infinite;
+        }
+        @keyframes rgb-anim {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+    </style>
+</head>
+<body class="h-screen flex flex-col overflow-hidden bg-slate-950 text-slate-100">
+
+    <!-- Start Screen / Title Overlay -->
+    <div id="start-screen" class="fixed inset-0 z-50 bg-slate-950 flex flex-col items-center justify-center p-6 transition-all duration-700">
+        <!-- Ambient Background Glow -->
+        <div class="absolute inset-0 overflow-hidden pointer-events-none">
+            <div class="absolute top-1/4 left-1/4 w-96 h-96 bg-blue-600/20 rounded-full blur-[120px]"></div>
+            <div class="absolute bottom-1/4 right-1/4 w-96 h-96 bg-purple-600/20 rounded-full blur-[120px]"></div>
+        </div>
+
+        <div class="relative z-10 max-w-2xl w-full text-center space-y-8 glass-panel p-8 md:p-12 rounded-3xl border border-slate-800/80 shadow-2xl">
+            <!-- Animated Icon -->
+            <div class="inline-flex p-5 rounded-3xl bg-gradient-to-br from-blue-500/20 to-purple-500/20 border border-blue-400/30 text-blue-400 shadow-lg shadow-blue-500/20">
+                <i data-lucide="cpu" class="w-16 h-16 animate-pulse"></i>
+            </div>
+
+            <!-- Game Title & Subtitle -->
+            <div class="space-y-3">
+                <div class="inline-block px-3 py-1 rounded-full bg-blue-500/10 border border-blue-500/20 text-blue-400 text-xs font-bold tracking-widest uppercase">
+                    PC Hardware & Business Simulator
+                </div>
+                <h1 class="text-4xl md:text-6xl font-extrabold tracking-tight bg-gradient-to-r from-blue-400 via-indigo-300 to-purple-400 bg-clip-text text-transparent pb-1">
+                    CYBER BUILDER TYCOON
+                </h1>
+                <p class="text-slate-400 text-sm md:text-base max-w-lg mx-auto leading-relaxed">
+                    สวมบทบาทช่างประกอบคอมพิวเตอร์มือโปร รับออเดอร์ลูกค้า โอเวอร์คล็อกรีดความแรง และสร้างอาณาจักรเหมืองขุดคริปโตของคุณเอง
+                </p>
+            </div>
+
+            <!-- Feature Highlights -->
+            <div class="grid grid-cols-3 gap-3 text-xs text-slate-300 pt-2">
+                <div class="p-3 rounded-2xl bg-slate-900/60 border border-slate-800 flex flex-col items-center space-y-1.5">
+                    <i data-lucide="wrench" class="w-5 h-5 text-blue-400"></i>
+                    <span class="font-medium">ประกอบคอมจริง</span>
+                </div>
+                <div class="p-3 rounded-2xl bg-slate-900/60 border border-slate-800 flex flex-col items-center space-y-1.5">
+                    <i data-lucide="gauge" class="w-5 h-5 text-amber-400"></i>
+                    <span class="font-medium">เทส & โอเวอร์คล็อก</span>
+                </div>
+                <div class="p-3 rounded-2xl bg-slate-900/60 border border-slate-800 flex flex-col items-center space-y-1.5">
+                    <i data-lucide="server" class="w-5 h-5 text-emerald-400"></i>
+                    <span class="font-medium">ฟาร์มขุดเหรียญ</span>
+                </div>
+            </div>
+
+            <!-- Start Button -->
+            <div class="pt-4">
+                <button onclick="startGame()" class="group relative inline-flex items-center justify-center px-10 py-4 font-bold text-white transition-all duration-200 bg-gradient-to-r from-blue-600 to-indigo-600 rounded-2xl hover:from-blue-500 hover:to-indigo-500 shadow-xl shadow-blue-600/30 hover:shadow-blue-500/50 hover:scale-105 active:scale-95 text-base md:text-lg w-full sm:w-auto">
+                    <i data-lucide="play" class="w-5 h-5 mr-2.5 fill-white transition-transform group-hover:translate-x-0.5"></i>
+                    <span>เริ่มเกม (START GAME)</span>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Top Navigation Header -->
+    <header class="h-16 border-b border-slate-800 glass-panel px-4 md:px-6 flex items-center justify-between z-20 shrink-0">
+        <!-- Logo & Title -->
+        <div class="flex items-center space-x-3">
+            <div class="p-2 rounded-xl bg-blue-600/20 border border-blue-500/30 text-blue-400">
+                <i data-lucide="cpu" class="w-6 h-6 animate-pulse"></i>
+            </div>
+            <div>
+                <h1 class="font-bold text-base md:text-lg leading-none bg-gradient-to-r from-blue-400 via-indigo-300 to-purple-400 bg-clip-text text-transparent">
+                    CYBER BUILDER TYCOON
+                </h1>
+                <p class="text-xs text-slate-400 hidden sm:block">ร้านจำลองประกอบคอมพิวเตอร์ระดับมืออาชีพ</p>
+            </div>
+        </div>
+
+        <!-- Dashboard Stats -->
+        <div class="flex items-center space-x-2 md:space-x-6">
+            <!-- Money -->
+            <div class="flex items-center space-x-2 bg-slate-900/80 px-3 md:px-4 py-1.5 md:py-2 rounded-xl border border-slate-800">
+                <i data-lucide="coins" class="w-4 h-4 md:w-5 md:h-5 text-amber-400"></i>
+                <div class="flex flex-col">
+                    <span class="text-[10px] md:text-xs text-slate-400">เงินทุน</span>
+                    <span id="stat-money" class="font-bold text-xs md:text-base text-amber-400 code-font">฿50,000</span>
+                </div>
+            </div>
+
+            <!-- Reputation -->
+            <div class="flex items-center space-x-2 bg-slate-900/80 px-3 md:px-4 py-1.5 md:py-2 rounded-xl border border-slate-800">
+                <i data-lucide="star" class="w-4 h-4 md:w-5 md:h-5 text-yellow-400 fill-yellow-400"></i>
+                <div class="flex flex-col">
+                    <span class="text-[10px] md:text-xs text-slate-400">ชื่อเสียงร้าน</span>
+                    <span id="stat-rep" class="font-bold text-xs md:text-base text-yellow-300 code-font">100 XP</span>
+                </div>
+            </div>
+
+            <!-- Crypto Mining Passive Income -->
+            <div class="hidden sm:flex items-center space-x-2 bg-slate-900/80 px-4 py-2 rounded-xl border border-slate-800">
+                <i data-lucide="zap" class="w-5 h-5 text-emerald-400"></i>
+                <div class="flex flex-col">
+                    <span class="text-xs text-slate-400">รายได้ขุด/วินาที</span>
+                    <span id="stat-mining-rate" class="font-bold text-emerald-400 code-font">+฿0/s</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Notification Toast Box -->
+        <div id="toast-container" class="fixed top-20 right-6 z-50 flex flex-col space-y-2 pointer-events-none"></div>
+    </header>
+
+    <!-- Main Content Area -->
+    <div class="flex-1 flex flex-col md:flex-row overflow-hidden">
+        <!-- Sidebar Navigation -->
+        <aside class="w-full md:w-64 border-b md:border-b-0 md:border-r border-slate-800 glass-panel p-2 md:p-4 flex md:flex-col space-x-2 md:space-x-0 md:space-y-2 overflow-x-auto z-10 shrink-0">
+            <button onclick="switchTab('orders')" id="nav-orders" class="nav-btn active flex items-center space-x-2 md:space-x-3 shrink-0 md:w-full px-3 md:px-4 py-2.5 md:py-3 rounded-xl font-medium text-xs md:text-sm transition-all duration-200 bg-blue-600 text-white shadow-lg shadow-blue-500/20">
+                <i data-lucide="clipboard-list" class="w-4 h-4 md:w-5 md:h-5"></i>
+                <span>งานลูกค้า</span>
+                <span id="badge-orders" class="ml-auto bg-blue-400/30 text-white text-xs px-2 py-0.5 rounded-full">3</span>
+            </button>
+
+            <button onclick="switchTab('builder')" id="nav-builder" class="nav-btn flex items-center space-x-2 md:space-x-3 shrink-0 md:w-full px-3 md:px-4 py-2.5 md:py-3 rounded-xl font-medium text-xs md:text-sm transition-all duration-200 text-slate-400 hover:bg-slate-800/60 hover:text-slate-200">
+                <i data-lucide="wrench" class="w-4 h-4 md:w-5 md:h-5"></i>
+                <span>โต๊ะประกอบคอม</span>
+            </button>
+
+            <button onclick="switchTab('shop')" id="nav-shop" class="nav-btn flex items-center space-x-2 md:space-x-3 shrink-0 md:w-full px-3 md:px-4 py-2.5 md:py-3 rounded-xl font-medium text-xs md:text-sm transition-all duration-200 text-slate-400 hover:bg-slate-800/60 hover:text-slate-200">
+                <i data-lucide="shopping-bag" class="w-4 h-4 md:w-5 md:h-5"></i>
+                <span>ร้านอะไหล่</span>
+            </button>
+
+            <button onclick="switchTab('bench')" id="nav-bench" class="nav-btn flex items-center space-x-2 md:space-x-3 shrink-0 md:w-full px-3 md:px-4 py-2.5 md:py-3 rounded-xl font-medium text-xs md:text-sm transition-all duration-200 text-slate-400 hover:bg-slate-800/60 hover:text-slate-200">
+                <i data-lucide="gauge" class="w-4 h-4 md:w-5 md:h-5"></i>
+                <span>เทส & OC</span>
+            </button>
+
+            <button onclick="switchTab('mining')" id="nav-mining" class="nav-btn flex items-center space-x-2 md:space-x-3 shrink-0 md:w-full px-3 md:px-4 py-2.5 md:py-3 rounded-xl font-medium text-xs md:text-sm transition-all duration-200 text-slate-400 hover:bg-slate-800/60 hover:text-slate-200">
+                <i data-lucide="server" class="w-4 h-4 md:w-5 md:h-5"></i>
+                <span>เหมืองขุด</span>
+            </button>
+
+            <button onclick="switchTab('upgrades')" id="nav-upgrades" class="nav-btn flex items-center space-x-2 md:space-x-3 shrink-0 md:w-full px-3 md:px-4 py-2.5 md:py-3 rounded-xl font-medium text-xs md:text-sm transition-all duration-200 text-slate-400 hover:bg-slate-800/60 hover:text-slate-200">
+                <i data-lucide="trending-up" class="w-4 h-4 md:w-5 md:h-5"></i>
+                <span>อัปเกรดร้าน</span>
+            </button>
+
+            <!-- Bottom Mini Info (Desktop Only) -->
+            <div class="hidden md:block mt-auto p-4 rounded-xl bg-slate-900/60 border border-slate-800 text-xs text-slate-400 space-y-2">
+                <div class="flex justify-between">
+                    <span>เลเวลช่าง:</span>
+                    <span id="tier-level" class="text-blue-400 font-bold">Junior PC Tech</span>
+                </div>
+                <div class="w-full bg-slate-800 rounded-full h-1.5 overflow-hidden">
+                    <div id="tier-progress" class="bg-blue-500 h-1.5 rounded-full transition-all duration-500" style="width: 25%"></div>
+                </div>
+            </div>
+        </aside>
+
+        <!-- Dynamic Main Content Area -->
+        <main class="flex-1 overflow-y-auto p-4 md:p-6 relative bg-slate-950">
+            <!-- TAB 1: ORDERS BOARD -->
+            <section id="tab-orders" class="tab-content block space-y-6">
+                <div class="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-4">
+                    <div>
+                        <h2 class="text-xl md:text-2xl font-bold text-slate-100">รายการใบสั่งซื้อจากลูกค้า</h2>
+                        <p class="text-slate-400 text-xs md:text-sm">เลือกงานที่คุณต้องการทำ อ่านสเปกและงบประมาณให้ถี่ถ้วนก่อนรับงาน</p>
+                    </div>
+                    <button onclick="generateRandomOrder()" class="px-4 py-2.5 bg-slate-800 hover:bg-slate-700 text-xs border border-slate-700 rounded-xl flex items-center justify-center space-x-2 text-slate-300 shrink-0">
+                        <i data-lucide="refresh-cw" class="w-4 h-4"></i>
+                        <span>หาลูกค้าใหม่ (รีเฟรช)</span>
+                    </button>
+                </div>
+
+                <!-- Grid Orders -->
+                <div id="orders-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6">
+                    <!-- Dynamic Orders Injected Here -->
+                </div>
+            </section>
+
+            <!-- TAB 2: PC BUILDER WORKBENCH -->
+            <section id="tab-builder" class="tab-content hidden space-y-6">
+                <div class="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-4">
+                    <div>
+                        <h2 class="text-xl md:text-2xl font-bold text-slate-100">โต๊ะประกอบคอมพิวเตอร์ (Workbench)</h2>
+                        <p class="text-slate-400 text-xs md:text-sm">ติดตั้งชิ้นส่วนคอมพิวเตอร์ให้ครบทุกช่อง ตรวจสอบความถูกต้องและระบายความร้อน</p>
+                    </div>
+                    <div class="flex space-x-3">
+                        <button onclick="clearCurrentBuild()" class="px-4 py-2.5 bg-slate-800 hover:bg-slate-700 text-slate-300 rounded-xl text-xs md:text-sm border border-slate-700">
+                            ถอดอุปกรณ์ทั้งหมด
+                        </button>
+                        <button onclick="finishBuildAndDeliver()" class="px-5 py-2.5 bg-emerald-600 hover:bg-emerald-500 text-white font-bold rounded-xl text-xs md:text-sm shadow-lg shadow-emerald-600/30 flex items-center space-x-2">
+                            <i data-lucide="check-circle" class="w-4 h-4"></i>
+                            <span>ส่งมอบงานให้ลูกค้า</span>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Active Order Target Banner -->
+                <div id="active-order-banner" class="glass-panel p-4 rounded-2xl border-l-4 border-l-blue-500 flex flex-col sm:flex-row justify-between sm:items-center gap-3 hidden">
+                    <div class="flex items-center space-x-4">
+                        <div class="p-3 bg-blue-500/10 rounded-xl text-blue-400 shrink-0">
+                            <i data-lucide="user-check" class="w-6 h-6"></i>
+                        </div>
+                        <div>
+                            <span class="text-xs text-blue-400 uppercase font-bold tracking-wider">กำลังทำออเดอร์ให้: <span id="active-client-name"></span></span>
+                            <h4 id="active-client-req" class="text-slate-200 text-xs md:text-sm font-semibold"></h4>
+                        </div>
+                    </div>
+                    <div class="sm:text-right border-t sm:border-t-0 border-slate-800 pt-2 sm:pt-0">
+                        <span class="text-xs text-slate-400">งบประมาณ:</span>
+                        <div id="active-client-budget" class="text-lg font-bold text-amber-400 code-font">฿0</div>
+                    </div>
+                </div>
+
+                <!-- Assembly Grid layout -->
+                <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
+                    <!-- Left: PC Case Visual Component Slots (7 Cols) -->
+                    <div class="lg:col-span-7 glass-panel p-4 md:p-6 rounded-2xl relative flex flex-col justify-between min-h-[500px] bg-slate-900/60 border border-slate-800">
+                        <div class="flex flex-wrap justify-between items-center gap-2 mb-4">
+                            <span class="text-xs font-bold text-slate-400 uppercase tracking-widest flex items-center space-x-2">
+                                <i data-lucide="box" class="w-4 h-4"></i>
+                                <span>เคสคอมพิวเตอร์ (PC CASE VIEW)</span>
+                            </span>
+                            <div class="flex items-center space-x-2">
+                                <span class="text-xs text-slate-400">สถานะความร้อน:</span>
+                                <span id="thermal-status" class="text-xs px-2 py-1 rounded bg-slate-800 text-emerald-400 font-medium">ปกติ</span>
+                            </div>
+                        </div>
+
+                        <!-- Interactive PC Case Layout Slots -->
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 md:gap-4 my-auto">
+                            <!-- CPU Slot -->
+                            <div id="slot-card-cpu" onclick="openPartSelector('cpu')" class="glass-panel-interactive p-3.5 md:p-4 rounded-xl border border-dashed border-slate-700 hover:border-blue-500 cursor-pointer flex items-center space-x-3 bg-slate-900/40">
+                                <div id="icon-cpu" class="p-3 rounded-lg bg-slate-800 text-slate-400 shrink-0">
+                                    <i data-lucide="cpu" class="w-6 h-6"></i>
+                                </div>
+                                <div class="overflow-hidden flex-1">
+                                    <div class="text-xs text-slate-400 font-semibold flex justify-between items-center">
+                                        <span>ซีพียู (CPU)</span>
+                                        <span id="badge-check-cpu" class="hidden text-emerald-400"><i data-lucide="check-circle-2" class="w-4 h-4"></i></span>
+                                    </div>
+                                    <div id="slot-cpu" class="text-sm font-bold text-slate-200 truncate">ยังไม่ได้ติดตั้ง</div>
+                                </div>
+                            </div>
+
+                            <!-- Cooler Slot -->
+                            <div id="slot-card-cooler" onclick="openPartSelector('cooler')" class="glass-panel-interactive p-3.5 md:p-4 rounded-xl border border-dashed border-slate-700 hover:border-blue-500 cursor-pointer flex items-center space-x-3 bg-slate-900/40">
+                                <div id="icon-cooler" class="p-3 rounded-lg bg-slate-800 text-slate-400 shrink-0">
+                                    <i data-lucide="fan" class="w-6 h-6"></i>
+                                </div>
+                                <div class="overflow-hidden flex-1">
+                                    <div class="text-xs text-slate-400 font-semibold flex justify-between items-center">
+                                        <span>ชุดระบายความร้อน (Cooler)</span>
+                                        <span id="badge-check-cooler" class="hidden text-emerald-400"><i data-lucide="check-circle-2" class="w-4 h-4"></i></span>
+                                    </div>
+                                    <div id="slot-cooler" class="text-sm font-bold text-slate-200 truncate">ยังไม่ได้ติดตั้ง</div>
+                                </div>
+                            </div>
+
+                            <!-- Motherboard Slot -->
+                            <div id="slot-card-mobo" onclick="openPartSelector('mobo')" class="glass-panel-interactive p-3.5 md:p-4 rounded-xl border border-dashed border-slate-700 hover:border-blue-500 cursor-pointer flex items-center space-x-3 bg-slate-900/40">
+                                <div id="icon-mobo" class="p-3 rounded-lg bg-slate-800 text-slate-400 shrink-0">
+                                    <i data-lucide="circuit-board" class="w-6 h-6"></i>
+                                </div>
+                                <div class="overflow-hidden flex-1">
+                                    <div class="text-xs text-slate-400 font-semibold flex justify-between items-center">
+                                        <span>เมนบอร์ด (Motherboard)</span>
+                                        <span id="badge-check-mobo" class="hidden text-emerald-400"><i data-lucide="check-circle-2" class="w-4 h-4"></i></span>
+                                    </div>
+                                    <div id="slot-mobo" class="text-sm font-bold text-slate-200 truncate">ยังไม่ได้ติดตั้ง</div>
+                                </div>
+                            </div>
+
+                            <!-- RAM Slot -->
+                            <div id="slot-card-ram" onclick="openPartSelector('ram')" class="glass-panel-interactive p-3.5 md:p-4 rounded-xl border border-dashed border-slate-700 hover:border-blue-500 cursor-pointer flex items-center space-x-3 bg-slate-900/40">
+                                <div id="icon-ram" class="p-3 rounded-lg bg-slate-800 text-slate-400 shrink-0">
+                                    <i data-lucide="memory-stick" class="w-6 h-6"></i>
+                                </div>
+                                <div class="overflow-hidden flex-1">
+                                    <div class="text-xs text-slate-400 font-semibold flex justify-between items-center">
+                                        <span>หน่วยความจำ (RAM)</span>
+                                        <span id="badge-check-ram" class="hidden text-emerald-400"><i data-lucide="check-circle-2" class="w-4 h-4"></i></span>
+                                    </div>
+                                    <div id="slot-ram" class="text-sm font-bold text-slate-200 truncate">ยังไม่ได้ติดตั้ง</div>
+                                </div>
+                            </div>
+
+                            <!-- GPU Slot -->
+                            <div id="slot-card-gpu" onclick="openPartSelector('gpu')" class="glass-panel-interactive p-3.5 md:p-4 rounded-xl border border-dashed border-slate-700 hover:border-blue-500 cursor-pointer flex items-center space-x-3 bg-slate-900/40">
+                                <div id="icon-gpu" class="p-3 rounded-lg bg-slate-800 text-slate-400 shrink-0">
+                                    <i data-lucide="monitor" class="w-6 h-6"></i>
+                                </div>
+                                <div class="overflow-hidden flex-1">
+                                    <div class="text-xs text-slate-400 font-semibold flex justify-between items-center">
+                                        <span>การ์ดจอ (GPU)</span>
+                                        <span id="badge-check-gpu" class="hidden text-emerald-400"><i data-lucide="check-circle-2" class="w-4 h-4"></i></span>
+                                    </div>
+                                    <div id="slot-gpu" class="text-sm font-bold text-slate-200 truncate">ยังไม่ได้ติดตั้ง</div>
+                                </div>
+                            </div>
+
+                            <!-- Storage Slot -->
+                            <div id="slot-card-storage" onclick="openPartSelector('storage')" class="glass-panel-interactive p-3.5 md:p-4 rounded-xl border border-dashed border-slate-700 hover:border-blue-500 cursor-pointer flex items-center space-x-3 bg-slate-900/40">
+                                <div id="icon-storage" class="p-3 rounded-lg bg-slate-800 text-slate-400 shrink-0">
+                                    <i data-lucide="hard-drive" class="w-6 h-6"></i>
+                                </div>
+                                <div class="overflow-hidden flex-1">
+                                    <div class="text-xs text-slate-400 font-semibold flex justify-between items-center">
+                                        <span>ไดรฟ์จัดเก็บ (Storage)</span>
+                                        <span id="badge-check-storage" class="hidden text-emerald-400"><i data-lucide="check-circle-2" class="w-4 h-4"></i></span>
+                                    </div>
+                                    <div id="slot-storage" class="text-sm font-bold text-slate-200 truncate">ยังไม่ได้ติดตั้ง</div>
+                                </div>
+                            </div>
+
+                            <!-- Power Supply Slot -->
+                            <div id="slot-card-psu" onclick="openPartSelector('psu')" class="glass-panel-interactive p-3.5 md:p-4 rounded-xl border border-dashed border-slate-700 hover:border-blue-500 cursor-pointer flex items-center space-x-3 bg-slate-900/40">
+                                <div id="icon-psu" class="p-3 rounded-lg bg-slate-800 text-slate-400 shrink-0">
+                                    <i data-lucide="zap" class="w-6 h-6"></i>
+                                </div>
+                                <div class="overflow-hidden flex-1">
+                                    <div class="text-xs text-slate-400 font-semibold flex justify-between items-center">
+                                        <span>พาวเวอร์ซัพพลาย (PSU)</span>
+                                        <span id="badge-check-psu" class="hidden text-emerald-400"><i data-lucide="check-circle-2" class="w-4 h-4"></i></span>
+                                    </div>
+                                    <div id="slot-psu" class="text-sm font-bold text-slate-200 truncate">ยังไม่ได้ติดตั้ง</div>
+                                </div>
+                            </div>
+
+                            <!-- Case Slot -->
+                            <div id="slot-card-case" onclick="openPartSelector('case')" class="glass-panel-interactive p-3.5 md:p-4 rounded-xl border border-dashed border-slate-700 hover:border-blue-500 cursor-pointer flex items-center space-x-3 bg-slate-900/40">
+                                <div id="icon-case" class="p-3 rounded-lg bg-slate-800 text-slate-400 shrink-0">
+                                    <i data-lucide="box" class="w-6 h-6"></i>
+                                </div>
+                                <div class="overflow-hidden flex-1">
+                                    <div class="text-xs text-slate-400 font-semibold flex justify-between items-center">
+                                        <span>เคส (Case)</span>
+                                        <span id="badge-check-case" class="hidden text-emerald-400"><i data-lucide="check-circle-2" class="w-4 h-4"></i></span>
+                                    </div>
+                                    <div id="slot-case" class="text-sm font-bold text-slate-200 truncate">ยังไม่ได้ติดตั้ง</div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Thermal Paste Interactive Toggle -->
+                        <div class="mt-4 pt-4 border-t border-slate-800 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+                            <div class="flex items-center space-x-3">
+                                <i data-lucide="droplet" class="w-5 h-5 text-blue-400 shrink-0"></i>
+                                <div>
+                                    <div class="text-xs font-bold text-slate-200">ทาซิลิโคนระบายความร้อน (Thermal Paste)</div>
+                                    <div class="text-xs text-slate-400">จำเป็นอย่างยิ่งสำหรับการระบายความร้อนของ CPU</div>
+                                </div>
+                            </div>
+                            <button id="btn-thermal-paste" onclick="toggleThermalPaste()" class="px-4 py-2.5 rounded-xl text-xs font-bold border transition-all bg-slate-800 border-slate-700 text-slate-400 hover:bg-slate-700 shrink-0">
+                                ทาซิลิโคน [ยังไม่ทา]
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Right: Build Stats Summary & Specs (5 Cols) -->
+                    <div class="lg:col-span-5 space-y-4">
+                        <div class="glass-panel p-5 md:p-6 rounded-2xl border border-slate-800 space-y-4">
+                            <h3 class="font-bold text-lg text-slate-200 border-b border-slate-800 pb-3 flex items-center justify-between">
+                                <span>สรุปคุณสมบัติเครื่อง</span>
+                                <span id="build-status-badge" class="text-xs px-2.5 py-1 rounded-full bg-red-500/20 text-red-400 font-normal">ยังไม่สมบูรณ์</span>
+                            </h3>
+
+                            <!-- Stats list -->
+                            <div class="space-y-3 text-sm">
+                                <div class="flex justify-between items-center">
+                                    <span class="text-slate-400">ต้นทุนรวมอะไหล่:</span>
+                                    <span id="build-total-cost" class="font-bold text-amber-400 code-font">฿0</span>
+                                </div>
+                                <div class="flex justify-between items-center">
+                                    <span class="text-slate-400">อัตราการใช้พลังงาน (TDP):</span>
+                                    <span id="build-total-power" class="font-bold text-slate-200 code-font">0 W / 0 W</span>
+                                </div>
+                                <div class="flex justify-between items-center">
+                                    <span class="text-slate-400">ความเร็วประมวลผล (Performance):</span>
+                                    <span id="build-perf-score" class="font-bold text-blue-400 code-font">0 pts</span>
+                                </div>
+                                <div class="flex justify-between items-center">
+                                    <span class="text-slate-400">ความจุ RAM รวม:</span>
+                                    <span id="build-total-ram" class="font-bold text-slate-200 code-font">0 GB</span>
+                                </div>
+                                <div class="flex justify-between items-center">
+                                    <span class="text-slate-400">ความจุ SSD/HDD รวม:</span>
+                                    <span id="build-total-storage" class="font-bold text-slate-200 code-font">0 GB</span>
+                                </div>
+                            </div>
+
+                            <!-- Warnings Panel -->
+                            <div id="build-warning-box" class="p-3 rounded-xl bg-amber-500/10 border border-amber-500/30 text-amber-400 text-xs hidden">
+                                <i data-lucide="alert-triangle" class="w-4 h-4 inline mr-1"></i>
+                                <span id="build-warning-text">คำเตือน: กำลังไฟของ PSU ไม่เพียงพอสำหรับสเปกนี้</span>
+                            </div>
+                        </div>
+
+                        <!-- Shortcut Tips -->
+                        <div class="p-4 rounded-2xl bg-slate-900/40 border border-slate-800 text-xs text-slate-400 space-y-2">
+                            <div class="font-bold text-slate-300">💡 คำแนะนำช่างมืออาชีพ:</div>
+                            <ul class="list-disc list-inside space-y-1 text-slate-400">
+                                <li>อย่าลืมทาซิลิโคนก่อนใส่ CPU Cooler ไม่งั้นเครื่องจะดับเพราะความร้อนสะสม</li>
+                                <li>เลือกพาวเวอร์ซัพพลาย (PSU) ที่มีกำลังไฟวัตต์เพียงพอกับ CPU + GPU</li>
+                                <li>ตรวจสอบช่อง Socket ของ CPU ให้ตรงกับเมนบอร์ด</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- TAB 3: PARTS STORE -->
+            <section id="tab-shop" class="tab-content hidden space-y-6">
+                <div class="flex flex-col lg:flex-row lg:justify-between lg:items-center gap-4">
+                    <div>
+                        <h2 class="text-xl md:text-2xl font-bold text-slate-100">ร้านค้าอะไหล่คอมพิวเตอร์ (Hardware Store)</h2>
+                        <p class="text-slate-400 text-xs md:text-sm">สั่งซื้อชิ้นส่วนที่มีประสิทธิภาพดีที่สุดเพื่อประกอบคอมให้ลูกค้าหรือใช้งานเอง</p>
+                    </div>
+
+                    <!-- Category Filter Buttons -->
+                    <div id="shop-category-filters" class="flex space-x-2 overflow-x-auto pb-1">
+                        <!-- Dynamic Filters Injected Here -->
+                    </div>
+                </div>
+
+                <!-- Hardware Grid -->
+                <div id="shop-parts-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6">
+                    <!-- Dynamic Parts Injected Here -->
+                </div>
+            </section>
+
+            <!-- TAB 4: BENCHMARK & OVERCLOCKING LAB -->
+            <section id="tab-bench" class="tab-content hidden space-y-6">
+                <div>
+                    <h2 class="text-xl md:text-2xl font-bold text-slate-100">ห้องปฏิบัติการเทส & โอเวอร์คล็อก (OC Lab)</h2>
+                    <p class="text-slate-400 text-xs md:text-sm">ปรับแต่งความเร็วนาฬิกา แรงดันไฟ และทดสอบประสิทธิภาพความเสถียรของเครื่องคอมพิวเตอร์ปัจจุบัน</p>
+                </div>
+
+                <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
+                    <!-- Tuning Controls (6 Cols) -->
+                    <div class="lg:col-span-6 glass-panel p-5 md:p-6 rounded-2xl border border-slate-800 space-y-6">
+                        <h3 class="font-bold text-lg text-slate-200 border-b border-slate-800 pb-3 flex items-center justify-between">
+                            <span>การตั้งค่า BIOS & Overclock</span>
+                            <i data-lucide="sliders" class="w-5 h-5 text-blue-400"></i>
+                        </h3>
+
+                        <!-- CPU Clock Slider -->
+                        <div class="space-y-2">
+                            <div class="flex justify-between text-sm">
+                                <span class="text-slate-400">CPU Clock Boost Multiplier:</span>
+                                <span id="oc-clock-val" class="text-blue-400 font-bold code-font">1.0x (Stock)</span>
+                            </div>
+                            <input type="range" id="slider-oc-clock" min="1.0" max="1.8" step="0.05" value="1.0" oninput="updateOcSettings()" class="w-full h-2 bg-slate-800 rounded-lg appearance-none cursor-pointer accent-blue-500">
+                        </div>
+
+                        <!-- Voltage Slider -->
+                        <div class="space-y-2">
+                            <div class="flex justify-between text-sm">
+                                <span class="text-slate-400">Core Voltage (VCore):</span>
+                                <span id="oc-voltage-val" class="text-amber-400 font-bold code-font">1.20 V</span>
+                            </div>
+                            <input type="range" id="slider-oc-voltage" min="1.1" max="1.6" step="0.02" value="1.2" oninput="updateOcSettings()" class="w-full h-2 bg-slate-800 rounded-lg appearance-none cursor-pointer accent-amber-500">
+                        </div>
+
+                        <!-- Action Controls -->
+                        <div class="pt-4 flex space-x-4">
+                            <button onclick="runBenchmarkTest()" class="flex-1 py-3 bg-blue-600 hover:bg-blue-500 text-white font-bold rounded-xl text-sm shadow-lg shadow-blue-600/30 flex items-center justify-center space-x-2">
+                                <i data-lucide="play" class="w-4 h-4 fill-white"></i>
+                                <span>เริ่มทดสอบ Benchmark</span>
+                            </button>
+                            <button onclick="resetOcSettings()" class="px-4 py-3 bg-slate-800 hover:bg-slate-700 text-slate-300 rounded-xl text-sm border border-slate-700">
+                                คืนค่าเดิม
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Benchmark Monitor (6 Cols) -->
+                    <div class="lg:col-span-6 glass-panel p-5 md:p-6 rounded-2xl border border-slate-800 flex flex-col justify-between min-h-[340px]">
+                        <div class="flex justify-between items-center">
+                            <span class="text-xs font-bold text-slate-400 uppercase tracking-widest">สถานะหน้าจอทดสอบ (Test Monitor)</span>
+                            <span id="bench-status-tag" class="text-xs px-2 py-1 rounded bg-slate-800 text-slate-400">พร้อมทดสอบ</span>
+                        </div>
+
+                        <!-- Gauge/Progress Visual -->
+                        <div class="my-auto text-center space-y-4 py-4">
+                            <div class="inline-block p-6 rounded-full bg-slate-900 border-4 border-slate-800 relative">
+                                <div id="bench-score-display" class="text-3xl md:text-4xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-purple-400 code-font">
+                                    0
+                                </div>
+                                <div class="text-xs text-slate-500 font-bold uppercase mt-1">CineBench Score</div>
+                            </div>
+
+                            <!-- Live Temp Bar -->
+                            <div class="max-w-md mx-auto space-y-1">
+                                <div class="flex justify-between text-xs">
+                                    <span class="text-slate-400">อุณหภูมิ CPU ความร้อนสะสม:</span>
+                                    <span id="bench-temp-val" class="font-bold text-slate-300 code-font">35°C</span>
+                                </div>
+                                <div class="w-full bg-slate-800 h-3 rounded-full overflow-hidden p-0.5 border border-slate-700">
+                                    <div id="bench-temp-bar" class="bg-emerald-500 h-full rounded-full transition-all duration-300" style="width: 20%"></div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div id="bench-log" class="text-xs code-font text-slate-400 bg-slate-950 p-3 rounded-xl border border-slate-800 h-24 overflow-y-auto">
+                            > รอนำเครื่องคอมพิวเตอร์เข้าทดสอบ...
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- TAB 5: CRYPTO MINING FARM -->
+            <section id="tab-mining" class="tab-content hidden space-y-6">
+                <div class="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-4">
+                    <div>
+                        <h2 class="text-xl md:text-2xl font-bold text-slate-100">ฟาร์มขุดเหรียญคริปโต (Crypto Mining Rigs)</h2>
+                        <p class="text-slate-400 text-xs md:text-sm">นำเครื่องคอมพิวเตอร์ที่คุณประกอบเสร็จมาตั้งเป็น Rig เพื่อสร้างรายได้แบบ Passive Income</p>
+                    </div>
+                    <button onclick="convertCurrentBuildToRig()" class="px-4 py-2.5 bg-emerald-600 hover:bg-emerald-500 text-white text-xs md:text-sm font-bold rounded-xl shadow-lg shadow-emerald-600/20 flex items-center justify-center space-x-2 shrink-0">
+                        <i data-lucide="plus-circle" class="w-4 h-4"></i>
+                        <span>แปลงคอมที่โต๊ะปัจจุบันเป็น Rig ขุด</span>
+                    </button>
+                </div>
+
+                <!-- Rigs Grid -->
+                <div id="mining-rigs-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6">
+                    <!-- Dynamic Mining Rigs Injected Here -->
+                </div>
+            </section>
+
+            <!-- TAB 6: SHOP UPGRADES -->
+            <section id="tab-upgrades" class="tab-content hidden space-y-6">
+                <div>
+                    <h2 class="text-xl md:text-2xl font-bold text-slate-100">อัปเกรดทักษะและหน้าร้าน (Shop Upgrades)</h2>
+                    <p class="text-slate-400 text-xs md:text-sm">ขยายศักยภาพของร้าน เพิ่มผลกำไร และลดต้นทุนการสั่งซื้ออะไหล่</p>
+                </div>
+
+                <div id="upgrades-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6">
+                    <!-- Dynamic Upgrades Injected Here -->
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <!-- Part Selector Modal -->
+    <div id="modal-part-selector" class="fixed inset-0 bg-slate-950/80 backdrop-blur-md z-50 flex items-center justify-center hidden p-4">
+        <div class="glass-panel w-full max-w-2xl rounded-2xl border border-slate-700 flex flex-col max-h-[85vh] overflow-hidden">
+            <!-- Modal Header -->
+            <div class="p-5 border-b border-slate-800 flex justify-between items-center">
+                <div class="flex items-center space-x-3">
+                    <div id="modal-part-icon" class="p-2 rounded-lg bg-blue-500/20 text-blue-400">
+                        <i data-lucide="cpu" class="w-5 h-5"></i>
+                    </div>
+                    <h3 id="modal-part-title" class="font-bold text-lg text-slate-100">เลือกชิ้นส่วน</h3>
+                </div>
+                <button onclick="closePartModal()" class="text-slate-400 hover:text-white p-1">
+                    <i data-lucide="x" class="w-6 h-6"></i>
+                </button>
+            </div>
+
+            <!-- Part List -->
+            <div id="modal-part-list" class="p-5 overflow-y-auto space-y-3 flex-1">
+                <!-- Dynamic choices injected here -->
+            </div>
+        </div>
+    </div>
+
+    <!-- JavaScript Game Engine Logic -->
+    <script>
+        /* ==================== GAME STATE & DATA ==================== */
+        const gameState = {
+            money: 50000,
+            reputation: 100,
+            activeOrder: null,
+            currentBuild: {
+                cpu: null,
+                cooler: null,
+                mobo: null,
+                ram: null,
+                gpu: null,
+                storage: null,
+                psu: null,
+                case: null,
+                hasThermalPaste: false,
+                ocMultiplier: 1.0,
+                ocVoltage: 1.2
+            },
+            inventory: [],
+            miningRigs: [],
+            upgrades: {
+                discount: 0,      // % discount on parts shop
+                marginBoost: 0,   // % bonus profit on client orders
+                autoMinerRate: 0  // bonus hash speed
+            },
+            orders: []
+        };
+
+        /* Hardware Parts Catalog Database */
+        const PARTS_DB = {
+            cpu: [
+                { id: 'cpu_1', name: 'Intel Core i3-12100F', price: 3200, socket: 'LGA1700', power: 65, perf: 450, desc: '4 Cores / 8 Threads - คุ้มค่าประหยัดงบ' },
+                { id: 'cpu_2', name: 'AMD Ryzen 5 5600X', price: 5400, socket: 'AM4', power: 65, perf: 720, desc: '6 Cores / 12 Threads - ยอดฮิตสายเกมมิ่ง' },
+                { id: 'cpu_3', name: 'Intel Core i7-13700K', price: 14500, socket: 'LGA1700', power: 125, perf: 1400, desc: '16 Cores / 24 Threads - แรงจัดประมวลผลไว' },
+                { id: 'cpu_4', name: 'AMD Ryzen 9 7950X', price: 21900, socket: 'AM5', power: 170, perf: 2100, desc: '16 Cores / 32 Threads - ขุมพลังระดับท็อป' }
+            ],
+            cooler: [
+                { id: 'clr_1', name: 'Stock Intel/AMD Air Cooler', price: 300, power: 5, cooling: 65, desc: 'พัดลมเดิมติดกล่อง พอใช้ได้ระดับพื้นฐาน' },
+                { id: 'clr_2', name: 'DeepCool AK400 Digital', price: 1290, power: 10, cooling: 150, desc: 'ซิงค์ลมทรงทาวเวอร์พร้อมจอแสดงอุณหภูมิ' },
+                { id: 'clr_3', name: 'NZXT Kraken X63 RGB (280mm AIO)', price: 4900, power: 25, cooling: 300, desc: 'ชุดน้ำปิด 2 ตอน ระบายความร้อนระดับเทพ' }
+            ],
+            mobo: [
+                { id: 'mobo_1', name: 'ASRock H610M-HDV (LGA1700)', price: 2200, socket: 'LGA1700', ramSlots: 2, power: 30, desc: 'บอร์ดประหยัดขนาด Micro-ATX' },
+                { id: 'mobo_2', name: 'MSI B550 GAMING PLUS (AM4)', price: 4300, socket: 'AM4', ramSlots: 4, power: 45, desc: 'บอร์ดเกมมิ่ง AM4 ครบเครื่อง' },
+                { id: 'mobo_3', name: 'ASUS ROG STRIX Z790-F (LGA1700)', price: 13500, socket: 'LGA1700', ramSlots: 4, power: 60, desc: 'บอร์ดไฮเอนด์ รองรับการโอเวอร์คล็อก' },
+                { id: 'mobo_4', name: 'GIGABYTE X670E AORUS MASTER (AM5)', price: 16900, socket: 'AM5', ramSlots: 4, power: 70, desc: 'เมนบอร์ดระดับพรีเมียมสำหรับ Ryzen 7000' }
+            ],
+            ram: [
+                { id: 'ram_1', name: 'Kingston Fury Beast 8GB DDR4 3200MHz', price: 850, capacity: 8, power: 10, perf: 120, desc: 'แรม 8GB แถวเดียวสำหรับสเปกเริ่มต้น' },
+                { id: 'ram_2', name: 'Corsair Vengeance LPX 16GB (8x2) DDR4', price: 1650, capacity: 16, power: 15, perf: 260, desc: 'แรม 16GB Dual Channel ยอดนิยม' },
+                { id: 'ram_3', name: 'G.SKILL Trident Z5 RGB 32GB (16x2) DDR5', price: 5400, capacity: 32, power: 25, perf: 580, desc: 'แรม DDR5 ความเร็วสูงพร้อมไฟ RGB' }
+            ],
+            gpu: [
+                { id: 'gpu_1', name: 'NVIDIA GTX 1650 4GB', price: 4900, power: 75, perf: 500, desc: 'การ์ดจอระดับเริ่มต้น เล่นเกมออนไลน์ทั่วไป' },
+                { id: 'gpu_2', name: 'NVIDIA RTX 3060 12GB', price: 9800, power: 170, perf: 1350, desc: 'การ์ดจอ VRAM เยอะ เหมาะกับเกม 1080p/1440p' },
+                { id: 'gpu_3', name: 'NVIDIA RTX 4070 Ti 12GB', price: 28500, power: 285, perf: 3200, desc: 'กราฟิกแรงระดับสูง พร้อม Ray Tracing และ DLSS 3' },
+                { id: 'gpu_4', name: 'NVIDIA RTX 4090 24GB', price: 68900, power: 450, perf: 6500, desc: 'ที่สุดแห่งความแรงสำหรับ 4K Gaming และ AI' }
+            ],
+            storage: [
+                { id: 'stg_1', name: 'Kingston NV2 500GB NVMe M.2', price: 1250, capacity: 500, power: 5, perf: 200, desc: 'SSD M.2 ความเร็วสูงระดับเริ่มต้น' },
+                { id: 'stg_2', name: 'Samsung 980 PRO 1TB NVMe Gen4', price: 3400, capacity: 1000, power: 8, perf: 500, desc: 'SSD อ่านเขียนเร็วทะลุ 7000MB/s' },
+                { id: 'stg_3', name: 'WD Black SN850X 2TB NVMe', price: 6200, capacity: 2000, power: 10, perf: 950, desc: 'ความจุสูงสะใจสำหรับจุเกมขนาดใหญ่' }
+            ],
+            psu: [
+                { id: 'psu_1', name: 'Aerocool 550W 80+ White', price: 1200, wattage: 550, desc: 'พาวเวอร์ซัพพลาย 550W พอสำหรับคอมสเปกเล็ก' },
+                { id: 'psu_2', name: 'CORSAIR CX650M 650W 80+ Bronze', price: 2450, wattage: 650, desc: 'พาวเวอร์ 650W ถอดสายได้บางส่วน' },
+                { id: 'psu_3', name: 'Thermaltake Toughpower 850W 80+ Gold', price: 4200, wattage: 850, desc: 'จ่ายไฟเสถียร 850 วัตต์มาตรฐาน 80+ Gold' },
+                { id: 'psu_4', name: 'SEASONIC PRIME 1200W 80+ Platinum', price: 9500, wattage: 1200, desc: 'พลังงานสะอาด 1200W สำหรับการ์ดจอตัวท็อป' }
+            ],
+            case: [
+                { id: 'cas_1', name: 'Standard Office Micro-ATX Case', price: 650, desc: 'เคสสีดำเรียบง่ายสไตล์ออฟฟิศ' },
+                { id: 'cas_2', name: 'Montech AIR 100 ARGB Glass', price: 1650, desc: 'เคสฝาข้างกระจก พร้อมพัดลม RGB ไฟสวยงาม' },
+                { id: 'cas_3', name: 'Lian Li O11 Dynamic EVO', price: 5400, desc: 'เคสกระจกนิรภัยรอบทิศทางระดับพรีเมียม' }
+            ]
+        };
+
+        /* Shop Upgrades Definition */
+        const SHOP_UPGRADES = [
+            { id: 'upg_discount', name: 'คอนเนกชั่นกับซัพพลายเออร์', cost: 15000, level: 0, max: 3, desc: 'ลดราคาการสั่งซื้ออะไหล่ทุกชิ้นลง 5% ต่อระดับ', effect: () => gameState.upgrades.discount += 0.05 },
+            { id: 'upg_margin', name: 'การตลาดหน้าร้านดึงดูดลูกค้า', cost: 20000, level: 0, max: 3, desc: 'เพิ่มเงินรางวัลกำไรจากลูกค้าขึ้น 10% ต่อระดับ', effect: () => gameState.upgrades.marginBoost += 0.10 },
+            { id: 'upg_miner', name: 'ระบบจัดสรรพลังงานเหมืองขุด', cost: 25000, level: 0, max: 3, desc: 'เพิ่มประสิทธิภาพรายได้จากการขุด Crypto ขึ้น 15%', effect: () => gameState.upgrades.autoMinerRate += 0.15 }
+        ];
+
+        /* Client Sample Names & Requests Generator */
+        const CLIENT_NAMES = ['คุณสมชาย สายเกมเมอร์', 'น้องบอม สตรีมเมอร์', 'อาจารย์วิชัย งานวิจัย', 'พี่ก้อง โปรดิวเซอร์', 'คุณฟ้า กราฟิกดีไซน์', 'คุณโต้ง นักขุดเหรียญ'];
+
+        /* ==================== INITIALIZATION & EVENT LOOPS ==================== */
+        let gameStarted = false;
+
+        function startGame() {
+            const startScreen = document.getElementById('start-screen');
+            startScreen.classList.add('opacity-0', 'scale-105', 'pointer-events-none');
+            setTimeout(() => {
+                startScreen.classList.add('hidden');
+            }, 700);
+            gameStarted = true;
+            showToast('ยินดีต้อนรับสู่ร้าน Cyber Builder Tycoon! เลือกรับงานแรกได้เลย', 'success');
+        }
+
+        window.onload = function () {
+            for (let i = 0; i < 3; i++) {
+                generateRandomOrder();
+            }
+
+            renderOrders();
+            renderShop();
+            renderMiningRigs();
+            renderUpgrades();
+            updateUIStats();
+            lucide.createIcons();
+
+            // Passive Income Timer Loop (Crypto Mining)
+            setInterval(tickMiningIncome, 1000);
+        };
+
+        /* ==================== CORE GAME UI FUNCS ==================== */
+        function switchTab(tabId) {
+            document.querySelectorAll('.tab-content').forEach(el => el.classList.add('hidden'));
+            document.querySelectorAll('.nav-btn').forEach(btn => {
+                btn.classList.remove('bg-blue-600', 'text-white', 'shadow-lg', 'shadow-blue-500/20');
+                btn.classList.add('text-slate-400');
+            });
+
+            document.getElementById(`tab-${tabId}`).classList.remove('hidden');
+            const activeNav = document.getElementById(`nav-${tabId}`);
+            if (activeNav) {
+                activeNav.classList.add('bg-blue-600', 'text-white', 'shadow-lg', 'shadow-blue-500/20');
+                activeNav.classList.remove('text-slate-400');
+            }
+        }
+
+        function updateUIStats() {
+            document.getElementById('stat-money').innerText = `฿${gameState.money.toLocaleString()}`;
+            document.getElementById('stat-rep').innerText = `${gameState.reputation} XP`;
+            
+            // Update Tier Level based on Reputation
+            const tierEl = document.getElementById('tier-level');
+            const progressEl = document.getElementById('tier-progress');
+            if (tierEl && progressEl) {
+                if (gameState.reputation >= 500) {
+                    tierEl.innerText = 'Master Cyber Architect';
+                    progressEl.style.width = '100%';
+                } else if (gameState.reputation >= 250) {
+                    tierEl.innerText = 'Senior Hardware Pro';
+                    progressEl.style.width = `${((gameState.reputation - 250) / 250) * 100}%`;
+                } else {
+                    tierEl.innerText = 'Junior PC Tech';
+                    progressEl.style.width = `${(gameState.reputation / 250) * 100}%`;
+                }
+            }
+
+            // Calculate Total Mining Income Per Second
+            const miningRate = gameState.miningRigs.reduce((acc, rig) => acc + rig.hashRate, 0) * (1 + gameState.upgrades.autoMinerRate);
+            document.getElementById('stat-mining-rate').innerText = `+฿${Math.floor(miningRate)}/s`;
+
+            // Update Workbench Summary
+            calculateBuildStats();
+        }
+
+        function showToast(msg, type = 'info') {
+            const container = document.getElementById('toast-container');
+            const toast = document.createElement('div');
+            const bgClass = type === 'success' ? 'bg-emerald-600 border-emerald-400' : type === 'error' ? 'bg-red-600 border-red-400' : 'bg-blue-600 border-blue-400';
+            
+            toast.className = `pointer-events-auto px-4 py-3 rounded-xl border text-white text-xs md:text-sm font-medium shadow-xl transition-all duration-300 transform translate-y-2 opacity-0 flex items-center space-x-2 ${bgClass}`;
+            toast.innerHTML = `<span>${msg}</span>`;
+            
+            container.appendChild(toast);
+            
+            setTimeout(() => {
+                toast.classList.remove('translate-y-2', 'opacity-0');
+            }, 10);
+
+            setTimeout(() => {
+                toast.classList.add('opacity-0');
+                setTimeout(() => toast.remove(), 300);
+            }, 3500);
+        }
+
+        /* ==================== ORDERS SYSTEM ==================== */
+        function generateRandomOrder() {
+            if (gameState.orders.length >= 6) {
+                showToast('กระดานงานเต็มแล้ว (สูงสุด 6 งาน)', 'info');
+                return;
+            }
+
+            const name = CLIENT_NAMES[Math.floor(Math.random() * CLIENT_NAMES.length)];
+            const minBudget = 15000 + Math.floor(Math.random() * 4) * 15000;
+            const targetPerf = Math.floor(minBudget * 0.12);
+            const targetRam = minBudget > 30000 ? 16 : 8;
+
+            const order = {
+                id: 'ord_' + Date.now() + Math.random().toString(36).substr(2, 4),
+                clientName: name,
+                budget: minBudget,
+                rewardProfit: Math.floor(minBudget * 0.25),
+                reqPerf: targetPerf,
+                reqRam: targetRam,
+                description: `ต้องการคอมพิวเตอร์งบประมาณไม่เกิน ฿${minBudget.toLocaleString()} โดยมีแรงประมวลผลขั้นต่ำ ${targetPerf} pts และ RAM ไม่ต่ำกว่า ${targetRam} GB`
+            };
+
+            gameState.orders.push(order);
+            renderOrders();
+        }
+
+        function renderOrders() {
+            const grid = document.getElementById('orders-grid');
+            grid.innerHTML = '';
+
+            document.getElementById('badge-orders').innerText = gameState.orders.length;
+
+            gameState.orders.forEach(order => {
+                const card = document.createElement('div');
+                card.className = 'glass-panel p-5 rounded-2xl border border-slate-800 space-y-4 flex flex-col justify-between hover:border-blue-500/50 transition-all';
+                card.innerHTML = `
+                    <div class="space-y-2">
+                        <div class="flex justify-between items-start">
+                            <span class="text-xs font-bold text-blue-400 uppercase tracking-wider">ใบสั่งซื้อ</span>
+                            <span class="text-xs font-bold text-amber-400 bg-amber-400/10 px-2.5 py-1 rounded-full border border-amber-400/20">งบ ฿${order.budget.toLocaleString()}</span>
+                        </div>
+                        <h3 class="font-bold text-slate-100 text-lg">${order.clientName}</h3>
+                        <p class="text-slate-400 text-xs leading-relaxed">${order.description}</p>
+                    </div>
+
+                    <div class="space-y-3 pt-3 border-t border-slate-800 text-xs">
+                        <div class="flex justify-between">
+                            <span class="text-slate-400">ขั้นต่ำ Perf:</span>
+                            <span class="text-slate-200 font-bold code-font">${order.reqPerf} pts</span>
+                        </div>
+                        <div class="flex justify-between">
+                            <span class="text-slate-400">ขั้นต่ำ RAM:</span>
+                            <span class="text-slate-200 font-bold code-font">${order.reqRam} GB</span>
+                        </div>
+                        <div class="flex justify-between">
+                            <span class="text-slate-400">ค่าตอบแทนกำไร:</span>
+                            <span class="text-emerald-400 font-bold code-font">+฿${Math.floor(order.rewardProfit * (1 + gameState.upgrades.marginBoost)).toLocaleString()}</span>
+                        </div>
+
+                        <button onclick="acceptOrder('${order.id}')" class="w-full py-2.5 bg-blue-600 hover:bg-blue-500 text-white font-bold rounded-xl text-xs shadow-lg shadow-blue-600/20 transition-all">
+                            รับงานนี้ประกอบคอม
+                        </button>
+                    </div>
+                `;
+                grid.appendChild(card);
+            });
+        }
+
+        function acceptOrder(orderId) {
+            const order = gameState.orders.find(o => o.id === orderId);
+            if (!order) return;
+
+            gameState.activeOrder = order;
+            showToast(`รับงานของ ${order.clientName} แล้ว! ไปที่โต๊ะประกอบคอมได้เลย`, 'info');
+
+            document.getElementById('active-order-banner').classList.remove('hidden');
+            document.getElementById('active-client-name').innerText = order.clientName;
+            document.getElementById('active-client-req').innerText = order.description;
+            document.getElementById('active-client-budget').innerText = `฿${order.budget.toLocaleString()}`;
+
+            switchTab('builder');
+        }
+
+        /* ==================== WORKBENCH & ASSEMBLY ==================== */
+        function openPartSelector(partType) {
+            const modal = document.getElementById('modal-part-selector');
+            const list = document.getElementById('modal-part-list');
+            const title = document.getElementById('modal-part-title');
+
+            const titleMap = {
+                cpu: 'เลือกซีพียู (CPU)',
+                cooler: 'เลือกชุดระบายความร้อน (Cooler)',
+                mobo: 'เลือกเมนบอร์ด (Motherboard)',
+                ram: 'เลือกแรม (RAM)',
+                gpu: 'เลือกการ์ดจอ (GPU)',
+                storage: 'เลือกหน่วยจัดเก็บ (Storage)',
+                psu: 'เลือกพาวเวอร์ซัพพลาย (PSU)',
+                case: 'เลือกเคสคอมพิวเตอร์ (Case)'
+            };
+
+            title.innerText = titleMap[partType] || 'เลือกอุปกรณ์';
+            list.innerHTML = '';
+
+            const partsList = PARTS_DB[partType] || [];
+
+            partsList.forEach(part => {
+                const discount = gameState.upgrades.discount;
+                const actualPrice = Math.floor(part.price * (1 - discount));
+                const inStock = gameState.inventory.filter(i => i.id === part.id).length;
+
+                const item = document.createElement('div');
+                item.className = 'glass-panel p-4 rounded-xl border border-slate-800 hover:border-blue-500 flex justify-between items-center cursor-pointer transition-all';
+                item.onclick = () => selectPartForSlot(partType, part);
+
+                item.innerHTML = `
+                    <div class="space-y-1 pr-3">
+                        <div class="font-bold text-slate-200 text-sm flex items-center gap-2">
+                            <span>${part.name}</span>
+                            ${inStock > 0 ? `<span class="text-[10px] bg-emerald-500/20 text-emerald-400 px-2 py-0.5 rounded-full">มีในคลัง ${inStock} ชิ้น</span>` : ''}
+                        </div>
+                        <div class="text-xs text-slate-400">${part.desc}</div>
+                        <div class="text-xs text-blue-400 font-mono">
+                            ${part.power ? `⚡ ${part.power}W ` : ''} 
+                            ${part.perf ? `🚀 ${part.perf} pts ` : ''}
+                            ${part.socket ? `🔌 ${part.socket}` : ''}
+                            ${part.wattage ? `🔋 ${part.wattage}W` : ''}
+                        </div>
+                    </div>
+                    <div class="text-right shrink-0">
+                        <div class="text-amber-400 font-bold code-font text-sm">${inStock > 0 ? 'ฟรี (จากคลัง)' : `฿${actualPrice.toLocaleString()}`}</div>
+                        <span class="text-xs bg-blue-600/20 text-blue-300 px-2.5 py-1 rounded inline-block mt-1">ติดตั้ง</span>
+                    </div>
+                `;
+                list.appendChild(item);
+            });
+
+            modal.classList.remove('hidden');
+        }
+
+        function closePartModal() {
+            document.getElementById('modal-part-selector').classList.add('hidden');
+        }
+
+        function selectPartForSlot(partType, part) {
+            // Check compatibility if mobo and cpu exist
+            if (partType === 'cpu' && gameState.currentBuild.mobo && gameState.currentBuild.mobo.socket !== part.socket) {
+                showToast(`ซ็อกเก็ต CPU (${part.socket}) ไม่ตรงกับเมนบอร์ด (${gameState.currentBuild.mobo.socket})!`, 'error');
+                closePartModal();
+                return;
+            }
+            if (partType === 'mobo' && gameState.currentBuild.cpu && gameState.currentBuild.cpu.socket !== part.socket) {
+                showToast(`เมนบอร์ดซ็อกเก็ต (${part.socket}) ไม่รองรับ CPU ที่ใส่อยู่ (${gameState.currentBuild.cpu.socket})!`, 'error');
+                closePartModal();
+                return;
+            }
+
+            gameState.currentBuild[partType] = part;
+            
+            document.getElementById(`slot-${partType}`).innerText = part.name;
+            document.getElementById(`slot-${partType}`).classList.add('text-blue-400');
+            document.getElementById(`icon-${partType}`).classList.add('bg-blue-600/20', 'text-blue-400');
+
+            // Apply Green Border Glow and Checkmark when installed
+            const cardEl = document.getElementById(`slot-card-${partType}`);
+            if (cardEl) {
+                cardEl.classList.remove('border-dashed', 'border-slate-700');
+                cardEl.classList.add('border-emerald-500', 'bg-emerald-950/20', 'shadow-lg', 'shadow-emerald-500/10');
+            }
+            const badgeEl = document.getElementById(`badge-check-${partType}`);
+            if (badgeEl) {
+                badgeEl.classList.remove('hidden');
+            }
+
+            closePartModal();
+            calculateBuildStats();
+            lucide.createIcons();
+            showToast(`ติดตั้ง ${part.name} เรียบร้อยแล้ว`, 'success');
+        }
+
+        function toggleThermalPaste() {
+            gameState.currentBuild.hasThermalPaste = !gameState.currentBuild.hasThermalPaste;
+            const btn = document.getElementById('btn-thermal-paste');
+            if (gameState.currentBuild.hasThermalPaste) {
+                btn.className = "px-4 py-2.5 rounded-xl text-xs font-bold border transition-all bg-emerald-600/20 border-emerald-500 text-emerald-400 shrink-0";
+                btn.innerText = "ทาซิลิโคน [ทาแล้ว ✓]";
+                showToast("ทาซิลิโคนระบายความร้อนบน CPU เรียบร้อย", "success");
+            } else {
+                btn.className = "px-4 py-2.5 rounded-xl text-xs font-bold border transition-all bg-slate-800 border-slate-700 text-slate-400 hover:bg-slate-700 shrink-0";
+                btn.innerText = "ทาซิลิโคน [ยังไม่ทา]";
+            }
+            calculateBuildStats();
+        }
+
+        function clearCurrentBuild() {
+            gameState.currentBuild = {
+                cpu: null,
+                cooler: null,
+                mobo: null,
+                ram: null,
+                gpu: null,
+                storage: null,
+                psu: null,
+                case: null,
+                hasThermalPaste: false,
+                ocMultiplier: 1.0,
+                ocVoltage: 1.2
+            };
+
+            const slots = ['cpu', 'cooler', 'mobo', 'ram', 'gpu', 'storage', 'psu', 'case'];
+            slots.forEach(s => {
+                document.getElementById(`slot-${s}`).innerText = 'ยังไม่ได้ติดตั้ง';
+                document.getElementById(`slot-${s}`).classList.remove('text-blue-400');
+                document.getElementById(`icon-${s}`).classList.remove('bg-blue-600/20', 'text-blue-400');
+
+                // Reset slot card border and checkmark
+                const cardEl = document.getElementById(`slot-card-${s}`);
+                if (cardEl) {
+                    cardEl.classList.add('border-dashed', 'border-slate-700');
+                    cardEl.classList.remove('border-emerald-500', 'bg-emerald-950/20', 'shadow-lg', 'shadow-emerald-500/10');
+                }
+                const badgeEl = document.getElementById(`badge-check-${s}`);
+                if (badgeEl) {
+                    badgeEl.classList.add('hidden');
+                }
+            });
+
+            document.getElementById('btn-thermal-paste').className = "px-4 py-2.5 rounded-xl text-xs font-bold border transition-all bg-slate-800 border-slate-700 text-slate-400 hover:bg-slate-700 shrink-0";
+            document.getElementById('btn-thermal-paste').innerText = "ทาซิลิโคน [ยังไม่ทา]";
+
+            calculateBuildStats();
+            showToast("ถอดชิ้นส่วนอุปกรณ์ออกทั้งหมดแล้ว", "info");
+        }
+
+        function calculateBuildStats() {
+            const b = gameState.currentBuild;
+
+            let totalCost = 0;
+            let totalPower = 0;
+            let perfScore = 0;
+            let ramCap = 0;
+            let storageCap = 0;
+            let psuWattage = b.psu ? b.psu.wattage : 0;
+
+            const parts = [b.cpu, b.cooler, b.mobo, b.ram, b.gpu, b.storage, b.psu, b.case];
+            parts.forEach(p => {
+                if (p) {
+                    const inStock = gameState.inventory.some(i => i.id === p.id);
+                    const price = inStock ? 0 : Math.floor(p.price * (1 - gameState.upgrades.discount));
+                    totalCost += price;
+                    if (p.power) totalPower += p.power;
+                    if (p.perf) perfScore += p.perf;
+                    if (p.capacity && p.id.startsWith('ram')) ramCap += p.capacity;
+                    if (p.capacity && p.id.startsWith('stg')) storageCap += p.capacity;
+                }
+            });
+
+            // OC boost math
+            perfScore = Math.floor(perfScore * b.ocMultiplier);
+
+            // Display in DOM
+            document.getElementById('build-total-cost').innerText = `฿${totalCost.toLocaleString()}`;
+            document.getElementById('build-total-power').innerText = `${totalPower} W / ${psuWattage} W`;
+            document.getElementById('build-perf-score').innerText = `${perfScore} pts`;
+            document.getElementById('build-total-ram').innerText = `${ramCap} GB`;
+            document.getElementById('build-total-storage').innerText = `${storageCap} GB`;
+
+            // Thermal status
+            const thermalTag = document.getElementById('thermal-status');
+            if (!b.cpu) {
+                thermalTag.innerText = 'ปกติ';
+                thermalTag.className = 'text-xs px-2 py-1 rounded bg-slate-800 text-slate-400';
+            } else if (!b.hasThermalPaste) {
+                thermalTag.innerText = 'ความร้อนสูงมาก (ขาดซิลิโคน)';
+                thermalTag.className = 'text-xs px-2 py-1 rounded bg-red-500/20 text-red-400 border border-red-500/30 font-bold';
+            } else {
+                thermalTag.innerText = 'สมบูรณ์ดี (มีซิลิโคน)';
+                thermalTag.className = 'text-xs px-2 py-1 rounded bg-emerald-500/20 text-emerald-400 font-bold';
+            }
+
+            // Warnings Validation
+            const warningBox = document.getElementById('build-warning-box');
+            const warningText = document.getElementById('build-warning-text');
+            const badge = document.getElementById('build-status-badge');
+
+            let warnings = [];
+            if (psuWattage > 0 && totalPower > psuWattage) {
+                warnings.push(`วัตต์พาวเวอร์ซัพพลายไม่พอ (${totalPower}W > ${psuWattage}W)`);
+            }
+            if (b.cpu && !b.hasThermalPaste) {
+                warnings.push(`ไม่ได้ทาซิลิโคนระบายความร้อนบน CPU`);
+            }
+
+            if (warnings.length > 0) {
+                warningBox.classList.remove('hidden');
+                warningText.innerText = warnings.join(' | ');
+            } else {
+                warningBox.classList.add('hidden');
+            }
+
+            const isComplete = b.cpu && b.cooler && b.mobo && b.ram && b.gpu && b.storage && b.psu && b.case && warnings.length === 0;
+
+            if (isComplete) {
+                badge.className = "text-xs px-2.5 py-1 rounded-full bg-emerald-500/20 text-emerald-400 font-bold border border-emerald-500/30";
+                badge.innerText = "พร้อมส่งมอบงาน";
+            } else {
+                badge.className = "text-xs px-2.5 py-1 rounded-full bg-red-500/20 text-red-400 font-normal";
+                badge.innerText = "ยังไม่สมบูรณ์";
+            }
+
+            return { isComplete, totalCost, totalPower, perfScore, ramCap };
+        }
+
+        function consumeUsedInventoryParts() {
+            const b = gameState.currentBuild;
+            const parts = [b.cpu, b.cooler, b.mobo, b.ram, b.gpu, b.storage, b.psu, b.case];
+            parts.forEach(p => {
+                if (p) {
+                    const idx = gameState.inventory.findIndex(i => i.id === p.id);
+                    if (idx !== -1) {
+                        gameState.inventory.splice(idx, 1);
+                    }
+                }
+            });
+        }
+
+        function finishBuildAndDeliver() {
+            const { isComplete, totalCost, perfScore, ramCap } = calculateBuildStats();
+
+            if (!isComplete) {
+                showToast("เครื่องยังประกอบไม่สมบูรณ์ หรือยังมีข้อผิดพลาดเรื่องกำลังไฟ/ซิลิโคน!", "error");
+                return;
+            }
+
+            if (!gameState.activeOrder) {
+                showToast("คุณยังไม่ได้เลือกรับใบสั่งซื้อจากลูกค้า!", "error");
+                return;
+            }
+
+            const order = gameState.activeOrder;
+
+            if (gameState.money < totalCost) {
+                showToast(`คุณมีเงินทุนไม่พอจ่ายค่าอะไหล่ (ต้องการ ฿${totalCost.toLocaleString()})`, "error");
+                return;
+            }
+
+            if (totalCost > order.budget) {
+                showToast(`งบประมาณเกินที่ลูกค้ากำหนด! (งบ ฿${order.budget.toLocaleString()})`, "error");
+                return;
+            }
+
+            if (perfScore < order.reqPerf) {
+                showToast(`ความแรงเครื่อง (${perfScore} pts) ไม่ถึงขั้นต่ำที่ลูกค้าต้องการ (${order.reqPerf} pts)!`, "error");
+                return;
+            }
+
+            if (ramCap < order.reqRam) {
+                showToast(`ความจุ RAM (${ramCap} GB) ไม่ถึงที่ต้องการ (${order.reqRam} GB)!`, "error");
+                return;
+            }
+
+            // Success Delivery!
+            consumeUsedInventoryParts();
+            const bonusProfit = Math.floor(order.rewardProfit * (1 + gameState.upgrades.marginBoost));
+            const totalPayout = totalCost + bonusProfit;
+
+            gameState.money = gameState.money - totalCost + totalPayout;
+            gameState.reputation += 25;
+
+            gameState.orders = gameState.orders.filter(o => o.id !== order.id);
+            gameState.activeOrder = null;
+
+            if (typeof confetti === 'function') {
+                confetti({ particleCount: 100, spread: 70, origin: { y: 0.6 } });
+            }
+
+            showToast(`ส่งมอบงานสำเร็จ! ได้รับกำไรสุทธิ +฿${bonusProfit.toLocaleString()}`, "success");
+
+            clearCurrentBuild();
+            document.getElementById('active-order-banner').classList.add('hidden');
+            updateUIStats();
+            renderOrders();
+            switchTab('orders');
+        }
+
+        /* ==================== SHOP SYSTEM ==================== */
+        function renderShop() {
+            const grid = document.getElementById('shop-parts-grid');
+            const filterContainer = document.getElementById('shop-category-filters');
+            grid.innerHTML = '';
+            filterContainer.innerHTML = '';
+
+            const categories = [
+                { id: 'all', label: 'ทั้งหมด' },
+                { id: 'cpu', label: 'CPU' },
+                { id: 'gpu', label: 'GPU' },
+                { id: 'ram', label: 'RAM' },
+                { id: 'mobo', label: 'เมนบอร์ด' },
+                { id: 'storage', label: 'SSD/HDD' },
+                { id: 'psu', label: 'PSU' },
+                { id: 'cooler', label: 'Cooler' }
+            ];
+
+            categories.forEach(cat => {
+                const btn = document.createElement('button');
+                btn.className = `px-3 py-1.5 rounded-lg text-xs font-medium transition-all shrink-0 ${cat.id === 'all' ? 'bg-blue-600 text-white' : 'bg-slate-800 text-slate-400 hover:text-white'}`;
+                btn.innerText = cat.label;
+                btn.onclick = () => filterShopCategory(cat.id, btn);
+                filterContainer.appendChild(btn);
+            });
+
+            filterShopCategory('all');
+        }
+
+        function filterShopCategory(catId, targetBtn) {
+            if (targetBtn) {
+                document.querySelectorAll('#shop-category-filters button').forEach(b => {
+                    b.className = 'px-3 py-1.5 rounded-lg text-xs font-medium transition-all shrink-0 bg-slate-800 text-slate-400 hover:text-white';
+                });
+                targetBtn.className = 'px-3 py-1.5 rounded-lg text-xs font-medium transition-all shrink-0 bg-blue-600 text-white';
+            }
+
+            const grid = document.getElementById('shop-parts-grid');
+            grid.innerHTML = '';
+
+            let allParts = [];
+            if (catId === 'all') {
+                Object.keys(PARTS_DB).forEach(key => {
+                    allParts = allParts.concat(PARTS_DB[key]);
+                });
+            } else {
+                allParts = PARTS_DB[catId] || [];
+            }
+
+            allParts.forEach(part => {
+                const discount = gameState.upgrades.discount;
+                const actualPrice = Math.floor(part.price * (1 - discount));
+                const ownedCount = gameState.inventory.filter(i => i.id === part.id).length;
+
+                const card = document.createElement('div');
+                card.className = 'glass-panel p-5 rounded-2xl border border-slate-800 space-y-4 flex flex-col justify-between hover:border-blue-500/50 transition-all';
+                card.innerHTML = `
+                    <div class="space-y-2">
+                        <div class="flex justify-between items-start">
+                            <span class="text-xs font-bold text-blue-400 uppercase tracking-wider">ในคลัง: ${ownedCount}</span>
+                            <span class="text-xs font-bold text-amber-400 bg-amber-400/10 px-2 py-0.5 rounded border border-amber-400/20">฿${actualPrice.toLocaleString()}</span>
+                        </div>
+                        <h4 class="font-bold text-slate-200 text-sm">${part.name}</h4>
+                        <p class="text-slate-400 text-xs">${part.desc}</p>
+                    </div>
+
+                    <div class="pt-3 border-t border-slate-800 text-xs text-slate-400 flex justify-between items-center">
+                        <span>${part.power ? `⚡ ${part.power}W` : ''} ${part.perf ? `🚀 ${part.perf}pts` : ''}</span>
+                        <button onclick="buyPartToInventory('${part.id}')" class="px-3 py-1.5 bg-slate-800 hover:bg-slate-700 text-slate-200 rounded-lg border border-slate-700 transition-all font-medium">
+                            ซื้อเก็บไว้
+                        </button>
+                    </div>
+                `;
+                grid.appendChild(card);
+            });
+        }
+
+        function buyPartToInventory(partId) {
+            let foundPart = null;
+            Object.keys(PARTS_DB).forEach(k => {
+                const item = PARTS_DB[k].find(p => p.id === partId);
+                if (item) foundPart = item;
+            });
+
+            if (!foundPart) return;
+
+            const price = Math.floor(foundPart.price * (1 - gameState.upgrades.discount));
+            if (gameState.money < price) {
+                showToast("คุณมีเงินทุนไม่เพียงพอสำหรับการซื้ออะไหล่นี้!", "error");
+                return;
+            }
+
+            gameState.money -= price;
+            gameState.inventory.push(foundPart);
+            updateUIStats();
+            renderShop();
+            showToast(`ซื้อ ${foundPart.name} สำเร็จ!`, "success");
+        }
+
+        /* ==================== OVERCLOCKING & BENCHMARK LAB ==================== */
+        function updateOcSettings() {
+            const clock = parseFloat(document.getElementById('slider-oc-clock').value);
+            const voltage = parseFloat(document.getElementById('slider-oc-voltage').value);
+
+            document.getElementById('oc-clock-val').innerText = `${clock.toFixed(2)}x ${clock > 1.0 ? '(OC Overclocked)' : '(Stock)'}`;
+            document.getElementById('oc-voltage-val').innerText = `${voltage.toFixed(2)} V`;
+
+            gameState.currentBuild.ocMultiplier = clock;
+            gameState.currentBuild.ocVoltage = voltage;
+
+            calculateBuildStats();
+        }
+
+        function resetOcSettings() {
+            document.getElementById('slider-oc-clock').value = 1.0;
+            document.getElementById('slider-oc-voltage').value = 1.2;
+            updateOcSettings();
+        }
+
+        function runBenchmarkTest() {
+            const { perfScore } = calculateBuildStats();
+            const log = document.getElementById('bench-log');
+            const tag = document.getElementById('bench-status-tag');
+            const scoreDisplay = document.getElementById('bench-score-display');
+            const tempBar = document.getElementById('bench-temp-bar');
+            const tempVal = document.getElementById('bench-temp-val');
+
+            if (!gameState.currentBuild.cpu) {
+                showToast("ต้องติดตั้ง CPU ก่อนทำการทดสอบ!", "error");
+                return;
+            }
+
+            tag.innerText = "กำลังทดสอบ...";
+            tag.className = "text-xs px-2 py-1 rounded bg-amber-500/20 text-amber-400 font-bold animate-pulse";
+            log.innerHTML += `<br>> เริ่มต้นการทดสอบ CineBench R23 Stress Test...`;
+
+            let currentTemp = 35;
+            const coolerBonus = gameState.currentBuild.cooler ? (gameState.currentBuild.cooler.cooling / 100) : 0.5;
+            let tempMultiplier = ((gameState.currentBuild.ocMultiplier * 1.4) * (gameState.currentBuild.ocVoltage / 1.2)) / coolerBonus;
+            if (!gameState.currentBuild.hasThermalPaste) tempMultiplier *= 2.5;
+
+            let step = 0;
+            const testInterval = setInterval(() => {
+                step++;
+                currentTemp = Math.floor(35 + (step * 7 * tempMultiplier));
+                
+                tempVal.innerText = `${currentTemp}°C`;
+                tempBar.style.width = `${Math.min(100, currentTemp)}%`;
+
+                if (currentTemp > 85) {
+                    tempBar.className = "bg-red-500 h-full rounded-full transition-all duration-300";
+                } else if (currentTemp > 65) {
+                    tempBar.className = "bg-amber-500 h-full rounded-full transition-all duration-300";
+                } else {
+                    tempBar.className = "bg-emerald-500 h-full rounded-full transition-all duration-300";
+                }
+
+                log.innerHTML += `<br>> Loop ${step}: Temp = ${currentTemp}°C, Power Load 100%`;
+                log.scrollTop = log.scrollHeight;
+
+                if (currentTemp >= 100) {
+                    clearInterval(testInterval);
+                    tag.innerText = "CRASH / OVERHEAT";
+                    tag.className = "text-xs px-2 py-1 rounded bg-red-600 text-white font-bold";
+                    log.innerHTML += `<br><span class="text-red-400">[ERROR] CPU ร้อนเกินไป (100°C) เครื่องดับ!</span>`;
+                    scoreDisplay.innerText = "0 (FAILED)";
+                    showToast("การทดสอบล้มเหลว! CPU ร้อนจัดเกิน 100°C (ตรวจสอบซิลิโคน/ชุดน้ำ)", "error");
+                    return;
+                }
+
+                if (step >= 5) {
+                    clearInterval(testInterval);
+                    tag.innerText = "ทดสอบเสร็จสมบูรณ์";
+                    tag.className = "text-xs px-2 py-1 rounded bg-emerald-500/20 text-emerald-400 font-bold";
+                    
+                    const finalScore = Math.floor(perfScore * (1 + (gameState.currentBuild.ocMultiplier - 1) * 1.2));
+                    scoreDisplay.innerText = finalScore.toLocaleString();
+                    log.innerHTML += `<br><span class="text-emerald-400">[SUCCESS] การทดสอบผ่าน! คะแนน CineBench: ${finalScore} pts</span>`;
+                    showToast(`ทดสอบสำเร็จ! คะแนน Benchmark: ${finalScore} pts`, "success");
+                }
+            }, 600);
+        }
+
+        /* ==================== CRYPTO MINING SYSTEM ==================== */
+        function convertCurrentBuildToRig() {
+            const { isComplete, totalCost, perfScore } = calculateBuildStats();
+            if (!isComplete) {
+                showToast("เครื่องคอมพิวเตอร์ที่โต๊ะยังประกอบไม่สมบูรณ์ ไม่สามารถแปลงเป็น Rig ได้!", "error");
+                return;
+            }
+
+            if (gameState.money < totalCost) {
+                showToast(`เงินทุนไม่พอจ่ายค่าอะไหล่สำหรับสร้าง Rig (ต้องการ ฿${totalCost.toLocaleString()})`, "error");
+                return;
+            }
+
+            gameState.money -= totalCost;
+            consumeUsedInventoryParts();
+
+            const rigName = `Rig Mining #${gameState.miningRigs.length + 1}`;
+            const hashRate = Math.max(10, Math.floor(perfScore * 0.05));
+
+            const rig = {
+                id: 'rig_' + Date.now(),
+                name: rigName,
+                hashRate: hashRate,
+                value: Math.floor(totalCost * 0.7),
+                gpuName: gameState.currentBuild.gpu ? gameState.currentBuild.gpu.name : 'Integrated',
+                cpuName: gameState.currentBuild.cpu.name
+            };
+
+            gameState.miningRigs.push(rig);
+            clearCurrentBuild();
+            renderMiningRigs();
+            updateUIStats();
+            showToast(`ติดตั้ง ${rigName} สำเร็จ! เริ่มสร้างรายได้แบบ Passive แล้ว`, "success");
+        }
+
+        function renderMiningRigs() {
+            const grid = document.getElementById('mining-rigs-grid');
+            grid.innerHTML = '';
+
+            if (gameState.miningRigs.length === 0) {
+                grid.innerHTML = `
+                    <div class="col-span-full text-center p-12 glass-panel rounded-2xl border border-slate-800 text-slate-500">
+                        <i data-lucide="server-off" class="w-12 h-12 mx-auto mb-3 opacity-40"></i>
+                        <p>ยังไม่มีเครื่อง Rig ขุดคริปโตในเหมือง</p>
+                        <p class="text-xs text-slate-600 mt-1">ประกอบคอมพิวเตอร์ที่โต๊ะแล้วกด "แปลงคอมที่โต๊ะปัจจุบันเป็น Rig ขุด"</p>
+                    </div>
+                `;
+                lucide.createIcons();
+                return;
+            }
+
+            gameState.miningRigs.forEach((rig, idx) => {
+                const rate = Math.floor(rig.hashRate * (1 + gameState.upgrades.autoMinerRate));
+
+                const card = document.createElement('div');
+                card.className = 'glass-panel p-5 rounded-2xl border border-slate-800 space-y-4 relative overflow-hidden';
+                card.innerHTML = `
+                    <div class="flex justify-between items-start">
+                        <div class="flex items-center space-x-3">
+                            <div class="p-2.5 bg-emerald-500/10 text-emerald-400 rounded-xl border border-emerald-500/20">
+                                <i data-lucide="cpu" class="w-6 h-6 animate-spin" style="animation-duration: 4s;"></i>
+                            </div>
+                            <div>
+                                <h4 class="font-bold text-slate-200 text-sm">${rig.name}</h4>
+                                <div class="text-xs text-slate-400">${rig.gpuName}</div>
+                            </div>
+                        </div>
+                        <span class="text-xs px-2 py-1 rounded bg-emerald-500/20 text-emerald-400 font-bold border border-emerald-500/30">Active</span>
+                    </div>
+
+                    <div class="space-y-2 pt-2 text-xs">
+                        <div class="flex justify-between">
+                            <span class="text-slate-400">อัตราการขุดสร้างรายได้:</span>
+                            <span class="text-emerald-400 font-bold code-font">+฿${rate}/วินาที</span>
+                        </div>
+                        <div class="flex justify-between">
+                            <span class="text-slate-400">ซีพียูหลัก:</span>
+                            <span class="text-slate-300 font-mono">${rig.cpuName}</span>
+                        </div>
+                    </div>
+
+                    <button onclick="sellMiningRig(${idx})" class="w-full py-2 bg-red-500/10 hover:bg-red-500/20 text-red-400 border border-red-500/20 rounded-xl text-xs font-bold transition-all">
+                        ถอดขาย Rig นี้ (฿${(rig.value || 15000).toLocaleString()})
+                    </button>
+                `;
+                grid.appendChild(card);
+            });
+
+            lucide.createIcons();
+        }
+
+        function sellMiningRig(index) {
+            const rig = gameState.miningRigs[index];
+            if (!rig) return;
+
+            const refund = rig.value || 15000;
+            gameState.money += refund;
+            gameState.miningRigs.splice(index, 1);
+
+            renderMiningRigs();
+            updateUIStats();
+            showToast(`ถอดขาย ${rig.name} ได้รับเงินคืน ฿${refund.toLocaleString()}`, "info");
+        }
+
+        function tickMiningIncome() {
+            if (gameState.miningRigs.length === 0) return;
+
+            const totalRate = gameState.miningRigs.reduce((acc, rig) => acc + rig.hashRate, 0) * (1 + gameState.upgrades.autoMinerRate);
+            gameState.money += Math.floor(totalRate);
+            updateUIStats();
+        }
+
+        /* ==================== UPGRADES SYSTEM ==================== */
+        function renderUpgrades() {
+            const grid = document.getElementById('upgrades-grid');
+            grid.innerHTML = '';
+
+            SHOP_UPGRADES.forEach(upg => {
+                const isMax = upg.level >= upg.max;
+                const cost = Math.floor(upg.cost * Math.pow(1.5, upg.level));
+
+                const card = document.createElement('div');
+                card.className = 'glass-panel p-5 rounded-2xl border border-slate-800 space-y-4 flex flex-col justify-between';
+                card.innerHTML = `
+                    <div class="space-y-2">
+                        <div class="flex justify-between items-center">
+                            <h4 class="font-bold text-slate-200 text-base">${upg.name}</h4>
+                            <span class="text-xs text-blue-400 font-mono">Lv. ${upg.level}/${upg.max}</span>
+                        </div>
+                        <p class="text-slate-400 text-xs">${upg.desc}</p>
+                    </div>
+
+                    <div class="pt-3 border-t border-slate-800 space-y-3">
+                        <div class="flex justify-between text-xs">
+                            <span class="text-slate-400">ราคาอัปเกรด:</span>
+                            <span class="text-amber-400 font-bold code-font">${isMax ? 'MAX' : `฿${cost.toLocaleString()}`}</span>
+                        </div>
+                        <button onclick="buyUpgrade('${upg.id}')" ${isMax ? 'disabled' : ''} class="w-full py-2.5 ${isMax ? 'bg-slate-800 text-slate-500 cursor-not-allowed' : 'bg-blue-600 hover:bg-blue-500 text-white shadow-lg shadow-blue-600/20'} font-bold rounded-xl text-xs transition-all">
+                            ${isMax ? 'อัปเกรดเต็มแล้ว' : 'ซื้อการอัปเกรด'}
+                        </button>
+                    </div>
+                `;
+                grid.appendChild(card);
+            });
+        }
+
+        function buyUpgrade(upgId) {
+            const upg = SHOP_UPGRADES.find(u => u.id === upgId);
+            if (!upg || upg.level >= upg.max) return;
+
+            const cost = Math.floor(upg.cost * Math.pow(1.5, upg.level));
+            if (gameState.money < cost) {
+                showToast("เงินทุนไม่พอสำหรับการซื้อการอัปเกรดนี้!", "error");
+                return;
+            }
+
+            gameState.money -= cost;
+            upg.level++;
+            upg.effect();
+
+            renderUpgrades();
+            renderShop();
+            updateUIStats();
+            showToast(`อัปเกรด ${upg.name} เป็น Level ${upg.level} เรียบร้อย!`, "success");
+        }
+    </script>
+</body>
+</html>
